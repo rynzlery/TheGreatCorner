@@ -6,6 +6,7 @@
     </div>
     <div class="col-sm-12 col-md-offset-4 col-md-4">
         <form class="form-horizontal" action="thegreatcorner.php" role="form" method="get">
+            {{ csrf_field() }}
             <div class="form-group">
                 <div class="col-sm-12">
                     <input type="email" class="form-control" id="email" name="email" placeholder="email">
@@ -67,7 +68,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-12 col-md-12">
-                    <input class="form-control" id="wordsearched" name="wordsearched" placeholder="Enter keywords">
+                    <input class="form-control" id="wordsearched" name="wordsearched" placeholder="Mots clés">
                 </div>
             </div>
             <div class="form-group">
@@ -83,7 +84,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-12 col-md-12">
-                    <div style="margin-bottom:2%;" class="g-recaptcha col-sm-offset-2 col-sm-10" data-sitekey="<?php //echo $siteKey; ?>"></div>
+                    {!! Recaptcha::render() !!}
                 </div>
             </div>
             <div class="form-group">
