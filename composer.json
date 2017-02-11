@@ -8,8 +8,11 @@
         "php": ">=5.6.4",
         "barryvdh/laravel-debugbar": "^2.3",
         "greggilbert/recaptcha": "^2.1",
+        "guzzlehttp/guzzle": "~5.3|~6.0",
+        "illuminate/html": "^5.0",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
+        "laravelcollective/html": "^5.2.0",
         "paquettg/php-html-parser": "1.7.0"
     },
     "require-dev": {

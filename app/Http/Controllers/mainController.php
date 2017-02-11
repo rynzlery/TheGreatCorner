@@ -20,7 +20,6 @@ class mainController extends Controller
             'wordsearched' => 'required',
             'prixmax' => 'required',
             'prixmin' => 'required',
-
         ]);
 
         $email = $request->input('email');
@@ -31,6 +30,7 @@ class mainController extends Controller
         $words_searched = $request->input('wordsearched');
         $prixmin = $this->setPriceNum($request->input('prixmin'));
         $prixmax = $this->setPriceNum($request->input('prixmax'));
+
 
         $url = 'https://www.leboncoin.fr/' . $type . '/offres/' . $region . '/?th=' . $numpage . '&q=' . $words_searched . '&ps=' . $prixmin . '&pe=' . $prixmax;
         $html = file_get_contents($url);
@@ -43,6 +43,7 @@ class mainController extends Controller
         //return count($contents);
 
         $body_html = "";
+        $informations = array();
 
         foreach ($contents as $content) {
             $title = $content->find('a')->getAttribute('title');
@@ -51,26 +52,32 @@ class mainController extends Controller
             $prix = $content->find('h3')->text;
             $item_description = $content->find('p.item_supp')[1]->text;
             $img = $content->find('a')->find('span')->find('span')->getAttribute('data-imgsrc');
+            $img = str_replace('//', 'http://', $img);
+            $link = str_replace('//', 'http://', $link);
 
+            $informations[] = array(
+                "title"=>$title,
+                "link"=>$link,
+                "date"=>$date,
+                "prix"=>$prix,
+                "item_description"=>$item_description,
+                "img"=>$img
+            );
             //return $item_description;
-            $body_html .= '<div class="col-sm-12 col-md-6">' . $title . '<br>' . $date . '<br>' . $item_description . '<br>' . $prix . '<br>' . $link . '<br><br><img src="' . $img . '" alt=""><br></div>';
+            //$body_html .= '<div class="col-sm-12 col-md-6">' . $title . '<br>' . $date . '<br>' . $item_description . '<br>' . $prix . '<br>' . $link . '<br><br><img src="' . $img . '" alt=""><br></div>';
         }
+        $data = $this->array_utf8_encode($informations);
+        $this->sendEmail($email, $informations);
 
-        $this->sendEmail($email, $body_html);
 
-        return $body_html;
+        return response()->json($data);
 
     }
 
-    public function sendEmail($to, $message)
+    public function sendEmail($to, $informations)
     {
-        /*$subject = "T'as cru que t'allais être tranquille";
-
-        $headers = "MIME-Version: 1.0\r\n";
-        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-        mail($to, $subject, $message, $headers);*/
-        Mail::send('welcome', array('firstname'=>'test'), function($test) {
-            $test->to("pierre1.cochard@gmail.com", 'Jon Doe')->subject('Welcome to the Laravel 4 Auth App!');
+        Mail::send('welcome', array('informations'=>$informations), function($email) use($to) {
+            $email->to($to, 'Jon Doe')->subject('The greatcorner, vos informations :)');
         });
     }
 
@@ -140,5 +147,17 @@ class mainController extends Controller
         if ($price >= 1500) {
             return 16;
         }
+    }
+
+    public function array_utf8_encode($dat)
+    {
+        if (is_string($dat))
+            return utf8_encode($dat);
+        if (!is_array($dat))
+            return $dat;
+        $ret = array();
+        foreach ($dat as $i => $d)
+            $ret[$i] = self::array_utf8_encode($d);
+        return $ret;
     }
 }
