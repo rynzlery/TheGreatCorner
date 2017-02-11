@@ -1,6 +1,9 @@
 @extends('layouts.master')
 
 @section('content')
+    @if(Session::has('flash_message'))
+        <div class="center col s12 m4 offset-m4"><div class="alert alert-success">{!! session('flash_message') !!}</div></div>
+    @endif
     <div class="col-sm-12" style="margin-top: 10%; margin-bottom: 5%;">
         <h1 class="text-center" style="font-family: 'Raleway'; font-size: 6em;"><b>thegreatcorner</b></h1>
     </div>
@@ -100,6 +103,7 @@
             <div class="form-group">
                 <div class="col-sm-12 col-md-12">
                     <button type="submit" value="submit" class="btn btn-default">Submit</button>
+                    <a style="color: white;" href="/thegreatcorner/unsubscribe">Unsubscribe</a>
                 </div>
             </div>
 

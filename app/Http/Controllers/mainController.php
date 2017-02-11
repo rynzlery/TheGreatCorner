@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use PHPHtmlParser\Dom;
 use Illuminate\Support\Facades\Mail;
+use Session;
+
+use App\User;
 
 class mainController extends Controller
 {
@@ -67,8 +70,21 @@ class mainController extends Controller
         $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
         mail($to, $subject, $message, $headers);*/
         Mail::send('welcome', array('firstname'=>'test'), function($test) {
-            $test->to("alan.corduan@gmail.com", 'Jon Doe')->subject('Welcome to the Laravel 4 Auth App!');
+            $test->to("pierre1.cochard@gmail.com", 'Jon Doe')->subject('Welcome to the Laravel 4 Auth App!');
         });
+    }
+
+    public function unsubscribe(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email',
+        ]);
+        $email = $request->input('email');
+
+        User::where('email', $email)->forceDelete();
+
+        Session::flash('flash_message', 'You are unsubscribed from our DB');
+        return redirect('/index');
     }
 
     private function setPriceNum($price)
