@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "191ba7fd8cd43520354170ac44f460e4",
+=======
+    "content-hash": "0a0ceb87db2dff4401700b62c91824a1",
+>>>>>>> 2e122e9157de9819fb60218f417f6687fd168978
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -471,6 +475,7 @@
             ],
             "abandoned": "laravelcollective/html",
             "time": "2015-01-01T16:31:18+00:00"
+<<<<<<< HEAD
         },
         {
             "name": "intervention/image",
@@ -586,6 +591,8 @@
                 "laravel"
             ],
             "time": "2015-09-22T15:22:47+00:00"
+=======
+>>>>>>> 2e122e9157de9819fb60218f417f6687fd168978
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -675,6 +682,7 @@
             "time": "2015-04-20T18:58:01+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "jeremeamia/SuperClosure",
             "version": "2.3.0",
             "source": {
@@ -695,16 +703,47 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.0|^5.0"
+=======
+            "name": "jenssegers/date",
+            "version": "v3.2.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jenssegers/date.git",
+                "reference": "ad55257ae655af540e055c0fcd48bc3ec1962ec4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jenssegers/date/zipball/ad55257ae655af540e055c0fcd48bc3ec1962ec4",
+                "reference": "ad55257ae655af540e055c0fcd48bc3ec1962ec4",
+                "shasum": ""
+            },
+            "require": {
+                "nesbot/carbon": "^1.0",
+                "php": ">=5.4",
+                "symfony/translation": "^2.7|^3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0|^5.0",
+                "satooshi/php-coveralls": "^1.0"
+>>>>>>> 2e122e9157de9819fb60218f417f6687fd168978
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
+<<<<<<< HEAD
                     "dev-master": "2.3-dev"
+=======
+                    "dev-master": "3.1-dev"
+>>>>>>> 2e122e9157de9819fb60218f417f6687fd168978
                 }
             },
             "autoload": {
                 "psr-4": {
+<<<<<<< HEAD
                     "SuperClosure\\": "src/"
+=======
+                    "Jenssegers\\Date\\": "src/"
+>>>>>>> 2e122e9157de9819fb60218f417f6687fd168978
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -713,6 +752,7 @@
             ],
             "authors": [
                 {
+<<<<<<< HEAD
                     "name": "Jeremy Lindblom",
                     "email": "jeremeamia@gmail.com",
                     "homepage": "https://github.com/jeremeamia",
@@ -731,6 +771,24 @@
                 "tokenizer"
             ],
             "time": "2016-12-07T09:37:55+00:00"
+=======
+                    "name": "Jens Segers",
+                    "homepage": "https://jenssegers.com"
+                }
+            ],
+            "description": "A date library to help you work with dates in different languages",
+            "homepage": "https://github.com/jenssegers/date",
+            "keywords": [
+                "carbon",
+                "date",
+                "datetime",
+                "i18n",
+                "laravel",
+                "time",
+                "translation"
+            ],
+            "time": "2017-01-02T09:21:15+00:00"
+>>>>>>> 2e122e9157de9819fb60218f417f6687fd168978
         },
         {
             "name": "laravel/framework",
@@ -2267,6 +2325,7 @@
                 "shim"
             ],
             "time": "2016-11-14T01:06:16+00:00"
+<<<<<<< HEAD
         },
         {
             "name": "symfony/polyfill-php56",
@@ -2375,6 +2434,8 @@
                 "shim"
             ],
             "time": "2016-11-14T01:06:16+00:00"
+=======
+>>>>>>> 2e122e9157de9819fb60218f417f6687fd168978
         },
         {
             "name": "symfony/process",
