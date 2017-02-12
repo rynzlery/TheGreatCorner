@@ -18,9 +18,9 @@ class User extends Authenticatable
         'email',
         'region',
         'type',
-        'wordsearched',
-        'prixmax',
-        'prixmin',
+        'words_searched',
+        'prix_max',
+        'prix_min',
     ];
 
     /**

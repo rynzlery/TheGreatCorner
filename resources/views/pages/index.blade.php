@@ -86,10 +86,10 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-12 col-md-6">
-                    <input type="number" class="form-control" id="prixmax" name="prixmax" placeholder="prix max" min="0" max="999999999">
+                    <input type="number" class="form-control" id="prixmin" name="prixmin" placeholder="prix min" min="0" max="999999999">
                 </div>
                 <div class="col-sm-12 col-md-6">
-                    <input type="number" class="form-control" id="prixmin" name="prixmin" placeholder="prix min" min="0" max="999999999">
+                    <input type="number" class="form-control" id="prixmax" name="prixmax" placeholder="prix max" min="0" max="999999999">
                 </div>
             </div>
             <div class="form-group">

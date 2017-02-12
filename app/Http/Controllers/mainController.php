@@ -31,6 +31,17 @@ class mainController extends Controller
         $prixmin = $this->setPriceNum($request->input('prixmin'));
         $prixmax = $this->setPriceNum($request->input('prixmax'));
 
+        $words_searched = urlencode($words_searched);
+
+        // INSERT User in DB
+        $user = new User;
+        $user->email = $email;
+        $user->type = $type;
+        $user->region = $region;
+        $user->words_searched = $words_searched;
+        $user->prix_min = $prixmin;
+        $user->prix_max = $prixmax;
+        $user->save();
 
         $url = 'https://www.leboncoin.fr/' . $type . '/offres/' . $region . '/?th=' . $numpage . '&q=' . $words_searched . '&ps=' . $prixmin . '&pe=' . $prixmax;
         $html = file_get_contents($url);
