@@ -20,6 +20,7 @@ class mainController extends Controller
             'wordsearched' => 'required',
             'prixmax' => 'required',
             'prixmin' => 'required',
+            'g-recaptcha-response' => 'required|recaptcha',
         ]);
 
         if ($this->setPriceNum($request->input('prixmin')) > $this->setPriceNum($request->input('prixmax'))) {
@@ -91,6 +92,7 @@ class mainController extends Controller
     {
         $this->validate($request, [
             'email' => 'required|email',
+            'g-recaptcha-response' => 'required|recaptcha',
         ]);
         $email = $request->input('email');
         User::where('email', $email)->forceDelete();

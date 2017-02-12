@@ -22,17 +22,6 @@
                 </div>
             @endif
 
-            @if (!empty($error))
-                <div class="alert alert-danger">
-                    <ul>
-                        {{ $error or "" }}
-                    </ul>
-                </div>
-            @endif
-
-
-
-
             <div class="form-group">
                 <div class="col-sm-12">
                     <input type="email" class="form-control" id="email" name="email" placeholder="email">
