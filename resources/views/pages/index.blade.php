@@ -4,7 +4,7 @@
     @if(Session::has('flash_message'))
         <div class="center col s12 m4 offset-m4"><div class="alert alert-success">{!! session('flash_message') !!}</div></div>
     @endif
-    <div class="col-sm-12" style="margin-top: 10%; margin-bottom: 5%;">
+    <div class="col-sm-12" style="margin-top: 5%; margin-bottom: 5%;">
         <h1 class="text-center" style="font-family: 'Raleway'; font-size: 6em;"><b>thegreatcorner</b></h1>
     </div>
     <div class="col-sm-12 col-md-offset-4 col-md-4">

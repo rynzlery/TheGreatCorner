@@ -3,6 +3,8 @@
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Support\Facades\Mail;
+use App\User;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
@@ -26,9 +28,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->call(function () {
-            DB::table('recent_users')->delete();
-        })->hourly();
+
+        $schedule->call('App\Http\Controllers\mainController@sendInfos')
+                ->hourly();
     }
 
     /**
