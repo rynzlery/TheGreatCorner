@@ -40,10 +40,15 @@ class mainController extends Controller
             $informations = $this->setResultsInformationFromHtmlFile($contents);
             $this->sendEmail($user->email, $informations);
         } else {
-            return response()->json(["error" => "Il n'y a pas de résultats à votre requête"]);
+            //return response()->json(["error" => "Il n'y a pas de résultats à votre requête"]);
+            $error = "Il n'y a pas de résultats correspondants à votre requête";
+            return view('pages.index', ['error' => $error]);
         }
 
-        return response()->json("ok");
+        //return response()->json("ok");
+
+        Session::flash('flash_message', 'Enregistrement créé <3');
+        return redirect('/index');
     }
 
     public function getHtmlResultFromUserRequest($user)
