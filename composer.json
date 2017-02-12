@@ -10,6 +10,7 @@
         "greggilbert/recaptcha": "^2.1",
         "guzzlehttp/guzzle": "~5.3|~6.0",
         "illuminate/html": "^5.0",
+        "jenssegers/date": "^3.2",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.2.0",
