@@ -24,4 +24,4 @@ Route::post('/thegreatcorner.php', 'mainController@postIndex');
 Route::get('/unsubscribe', function () {
 	return view('pages.unsubscribe');
 });
-Route::post('/unsubscribe', 'mainController@unsubscribe');
+Route::post('/unsubscribe', 'mainController@postUnsubscribe');

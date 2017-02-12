@@ -2,7 +2,9 @@
 
 @section('content')
     @if(Session::has('flash_message'))
-        <div class="center col s12 m4 offset-m4"><div class="alert alert-success">{!! session('flash_message') !!}</div></div>
+        <div class="center col s12 m4 offset-m4">
+            <div class="alert alert-success">{!! session('flash_message') !!}</div>
+        </div>
     @endif
     <div class="col-sm-12" style="margin-top: 5%; margin-bottom: 5%;">
         <h1 class="text-center" style="font-family: 'Raleway'; font-size: 6em;"><b>thegreatcorner</b></h1>
@@ -19,6 +21,18 @@
                     </ul>
                 </div>
             @endif
+
+            @if (!empty($error))
+                <div class="alert alert-danger">
+                    <ul>
+                        {{ $error or "" }}
+                    </ul>
+                </div>
+            @endif
+
+
+
+
             <div class="form-group">
                 <div class="col-sm-12">
                     <input type="email" class="form-control" id="email" name="email" placeholder="email">
@@ -86,10 +100,12 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-12 col-md-6">
-                    <input type="number" class="form-control" id="prixmin" name="prixmin" placeholder="prix min" min="0" max="999999999">
+                    <input type="number" class="form-control" id="prixmin" name="prixmin" placeholder="prix min" min="0"
+                           max="999999999">
                 </div>
                 <div class="col-sm-12 col-md-6">
-                    <input type="number" class="form-control" id="prixmax" name="prixmax" placeholder="prix max" min="0" max="999999999">
+                    <input type="number" class="form-control" id="prixmax" name="prixmax" placeholder="prix max" min="0"
+                           max="999999999">
                 </div>
             </div>
             <div class="form-group">

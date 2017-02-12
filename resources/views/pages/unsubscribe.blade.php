@@ -16,6 +16,7 @@
                     </ul>
                 </div>
             @endif
+
             <div class="form-group">
                 <div class="col-sm-12">
                     <input type="email" class="form-control" id="email" name="email" placeholder="email">

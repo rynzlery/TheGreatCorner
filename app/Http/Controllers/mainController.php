@@ -1,14 +1,18 @@
 <?php
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
+use Mockery\CountValidator\Exception;
 use PHPHtmlParser\Dom;
 use Illuminate\Support\Facades\Mail;
 use Session;
 use App\User;
+
 class mainController extends Controller
 {
     public function postIndex(Request $request)
     {
+        $error_price = null;
         $this->validate($request, [
             'email' => 'required|email',
             'region' => 'required',
@@ -17,65 +21,66 @@ class mainController extends Controller
             'prixmax' => 'required',
             'prixmin' => 'required',
         ]);
-        $email = $request->input('email');
-        $type = $request->input('type');
-        $region = $request->input('region');
-        $departement = $request->input('type');
-        $numpage = 1;
-        $words_searched = $request->input('wordsearched');
-        $prixmin = $this->setPriceNum($request->input('prixmin'));
-        $prixmax = $this->setPriceNum($request->input('prixmax'));
-        $words_searched = urlencode($words_searched);
-        // INSERT User in DB
-        $user = new User;
-        $user->email = $email;
-        $user->type = $type;
-        $user->region = $region;
-        $user->words_searched = $words_searched;
-        $user->prix_min = $prixmin;
-        $user->prix_max = $prixmax;
-        $user->save();
-        $url = 'https://www.leboncoin.fr/' . $type . '/offres/' . $region . '/?th=' . $numpage . '&q=' . $words_searched . '&ps=' . $prixmin . '&pe=' . $prixmax;
-        $html = file_get_contents($url);
-        $dom = new Dom;
-        $contents = new Dom;
-        $dom->load($html);
-        $test = $dom->getElementById('listingAds')->find('ul')->outerhtml;
-        $contents = $dom->getElementById('listingAds')->find('li');
-        //return count($contents);
-        $body_html = "";
-        $informations = array();
-        foreach ($contents as $content) {
-            $title = $content->find('a')->getAttribute('title');
-            $link = $content->find('a')->getAttribute('href');
-            $date = $content->find('aside')->find('p')->text;
-            $prix = $content->find('h3')->text;
-            $item_description = $content->find('p.item_supp')[1]->text;
-            $img = $content->find('a')->find('span')->find('span')->getAttribute('data-imgsrc');
-            $img = str_replace('//', 'http://', $img);
-            $link = str_replace('//', 'http://', $link);
-            $informations[] = array(
-                "title"=>$title,
-                "link"=>$link,
-                "date"=>$date,
-                "prix"=>$prix,
-                "item_description"=>$item_description,
-                "img"=>$img
-            );
-            //return $item_description;
-            //$body_html .= '<div class="col-sm-12 col-md-6">' . $title . '<br>' . $date . '<br>' . $item_description . '<br>' . $prix . '<br>' . $link . '<br><br><img src="' . $img . '" alt=""><br></div>';
+
+        if ($this->setPriceNum($request->input('prixmin')) > $this->setPriceNum($request->input('prixmax'))) {
+            $error = "Le prix min ne peut pas être supérieux au prix max";
+            return view('pages.index', ['error' => $error]);
         }
-        $data = $this->array_utf8_encode($informations);
-        $this->sendEmail($email, $informations);
-        return response()->json($data);
+
+        // INSERT User in DB
+        $user = $this->setUser($request->input('email'), $request->input('type'), $request->input('region'), urlencode($request->input('wordsearched')), $this->setPriceNum($request->input('prixmin')), $this->setPriceNum($request->input('prixmax')));
+        //Get Dom Html results
+        $dom = new Dom;
+        //$contents = new Dom;
+        $dom->load($this->getHtmlResultFromUserRequest($user));
+
+
+        if ($dom->getElementById('listingAds') != null) {
+            $contents = $dom->getElementById('listingAds')->find('li');
+            $informations = $this->setResultsInformationFromHtmlFile($contents);
+            $this->sendEmail($user->email, $informations);
+        } else {
+            return response()->json(["error" => "Il n'y a pas de résultats à votre requête"]);
+        }
+
+        return response()->json("ok");
     }
+
+    public function getHtmlResultFromUserRequest($user)
+    {
+        $numpage = 1;
+        $url = 'https://www.leboncoin.fr/' . $user->type . '/offres/' . $user->region . '/?th=' . $numpage . '&q=' . $user->words_searched . '&ps=' . $user->prixmin . '&pe=' . $user->prixmax;
+        $html = file_get_contents($url);
+        return $html;
+    }
+
+    public function setResultsInformationFromHtmlFile($contents)
+    {
+        $contents_local = new Dom;
+        $contents_local->load($contents);
+        $informations = array();
+        foreach ($contents_local as $content) {
+            $informations[] = array(
+                "title" => $content->find('a')->getAttribute('title'),
+                "link" => str_replace('//', 'http://', $content->find('a')->getAttribute('href')),
+                "date" => $content->find('aside')->find('p')->text,
+                "prix" => $content->find('h3')->text,
+                "item_description" => $content->find('p.item_supp')[1]->text,
+                "img" => $link = str_replace('//', 'http://', $content->find('a')->find('span')->find('span')->getAttribute('data-imgsrc'))
+            );
+        }
+
+        return $informations;
+    }
+
     public function sendEmail($to, $informations)
     {
-        Mail::send('welcome', array('informations'=>$informations), function($email) use($to) {
+        Mail::send('welcome', array('informations' => $informations), function ($email) use ($to) {
             $email->to($to, 'Jon Doe')->subject('The greatcorner, vos informations :)');
         });
     }
-    public function unsubscribe(Request $request)
+
+    public function postUnsubscribe(Request $request)
     {
         $this->validate($request, [
             'email' => 'required|email',
@@ -85,6 +90,7 @@ class mainController extends Controller
         Session::flash('flash_message', 'You are unsubscribed from our DB');
         return redirect('/index');
     }
+
     private function setPriceNum($price)
     {
         if ($price == 0) {
@@ -139,6 +145,7 @@ class mainController extends Controller
             return 16;
         }
     }
+
     public function array_utf8_encode($dat)
     {
         if (is_string($dat))
@@ -149,5 +156,20 @@ class mainController extends Controller
         foreach ($dat as $i => $d)
             $ret[$i] = self::array_utf8_encode($d);
         return $ret;
+    }
+
+    public function setUser($email, $type, $region, $words_searched, $prixmin, $prixmax)
+    {
+        $user = new User;
+        $user->email = $email;
+        $user->type = $type;
+        $user->region = $region;
+        $user->words_searched = $words_searched;
+        $user->prix_min = $prixmin;
+        $user->prix_max = $prixmax;
+        $user->save();
+
+        return $user;
+
     }
 }
