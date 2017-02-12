@@ -32,6 +32,7 @@ class mainController extends Controller
         //Get Dom Html results
         $dom = new Dom;
         //$contents = new Dom;
+
         $dom->load($this->getHtmlResultFromUserRequest($user));
 
 
@@ -55,6 +56,7 @@ class mainController extends Controller
     {
         $numpage = 1;
         $url = 'https://www.leboncoin.fr/' . $user->type . '/offres/' . $user->region . '/?th=' . $numpage . '&q=' . $user->words_searched . '&ps=' . $user->prixmin . '&pe=' . $user->prixmax;
+
         $html = file_get_contents($url);
         return $html;
     }
